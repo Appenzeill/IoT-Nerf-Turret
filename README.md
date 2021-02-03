@@ -48,7 +48,7 @@ $ procul --help
 ## Studenten 
 * Jarno Bröcker | 1781716 | [Jarno-2003](https://github.com/Jarno-2003) 
 * Rick Nuhaan | 1787435 | [Rick2003](https://github.com/rick2003)
-* Erik Schreuders | 1782477 | [ETGNL](https://github.com/ETGNL)
+* Ray de Kruif | 1787534 | [Rayax10](https://github.com/Rayax10)
 * Daan Roth | 1782443 | [Appenzeill](https://github.com/Appenzeill)
 
 ## Licentie
