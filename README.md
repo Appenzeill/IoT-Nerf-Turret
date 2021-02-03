@@ -46,7 +46,7 @@ $ procul --help
 ```
 
 ## Studenten 
-* Justin ter Horst | 1786019 | [Justinterhost](https://github.com/Justinterhorst) 
+* Jarno Bröcker | 1781716 | [Jarno-2003](https://github.com/Jarno-2003) 
 * Ratha Alphonse | 1785793 | [RathaAlphonse](https://github.com/Justinterhorst)
 * Erik Schreuders | 1782477 | [ETGNL](https://github.com/ETGNL)
 * Daan Roth | 1782443 | [Appenzeill](https://github.com/Appenzeill)
