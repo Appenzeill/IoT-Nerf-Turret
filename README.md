@@ -22,6 +22,7 @@ Het project kan worden gebuild doormiddel vand de volgende instructies:
 
 ### POSIX
 ```
+$ git clone https://github.com/Appenzeill/IoT-Nerf-Turret.git
 $ mkdir build
 $ cd build
 $ cmake ..
