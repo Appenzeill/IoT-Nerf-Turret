@@ -15,6 +15,7 @@ Project is gemaakt met:
 * CMake 
 * Make
 * C++ 14
+* WiringPie
 	
 ## Setup
 Het project kan worden gebuild doormiddel vand de volgende instructies:
