@@ -4,6 +4,8 @@
 
 using namespace std;
 
+bool fire = false;
+
 int horizontal_new = 130;
 int horizontal_old = 130;
 int horizontal_min = 30;
@@ -13,6 +15,34 @@ int vertical_min = 80;
 int vertical_max = 160;
 int vertical_new = 120;
 int vertical_old = 120;
+
+// handmatige implementatie van pwm signal.
+PI_THREAD(fire_servo) {
+  while (true) {
+    if (fire == false) {
+      for (int i = 0; i <= 50; i++) {
+	//usleep(20000);
+	usleep(17500);
+	digitalWrite (26, HIGH);
+	usleep(2500);
+	digitalWrite (26,  LOW);
+	//cout << i << endl;
+      }
+    } else {
+      for (int i = 0; i <= 50; i++) {
+	//usleep(20000);
+	usleep(19500);
+	digitalWrite (26, HIGH);
+	usleep(500);
+	digitalWrite (26,  LOW);
+	//cout << i << endl;
+      }
+    }
+    //cout << "FIRE!" << endl;
+  }
+  return(0);
+}
+
 
 PI_THREAD(vertical_servo) {
   while (true) {
@@ -35,8 +65,6 @@ PI_THREAD(vertical_servo) {
 
 PI_THREAD(horizontal_servo) {
   while (true) {
-    //cout << "horizontal new: " <<horizontal_new << endl;
-    //cout << "horizontal old: " << horizontal_old << endl;
     usleep(30000);
     if (horizontal_new != horizontal_old && horizontal_new < horizontal_old) {
       //cout << "kleiner \n";
@@ -56,24 +84,25 @@ PI_THREAD(horizontal_servo) {
   return(0);
 }  
 
-void fire() {
-  
-}
-
 int main(void) {
   // initialiseer de threads.
   int t0 = piThreadCreate(vertical_servo);
   int t1 = piThreadCreate(horizontal_servo);
+  int t2 = piThreadCreate(fire_servo);
 
   // hoeveel punten per keer met draaien.
   int interval = 5;
 
   // error handling van de threads
-  if (t0 != 0 || t1 != 0) {
+  if (t0 != 0 || t1 != 0 || t2 != 0 ) {
     std::cout << "threads did not start correctly." << std::endl;
   }
   
   wiringPiSetupGpio();
+  // schiet servo
+  pinMode (26, OUTPUT);
+
+  // pwm servos
   pinMode(18,PWM_OUTPUT); // 18
   pinMode(19,PWM_OUTPUT); // 19
   
@@ -114,6 +143,12 @@ int main(void) {
 	horizontal_new = horizontal_new + interval;
       }
       cout << horizontal_new << endl;
+    } else if (direction == "f") {
+      if (fire == false) {
+	fire = true;
+      } else {
+	fire = false;
+      }
     } else {
       cout << "geen geldige input \n";
     }
