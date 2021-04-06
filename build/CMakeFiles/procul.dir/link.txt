@@ -1,1 +1,0 @@
-/usr/bin/c++     CMakeFiles/procul.dir/src/PracticalSocket.cpp.o CMakeFiles/procul.dir/src/main.cpp.o  -o procul  /usr/lib/libwiringPi.so -lpthread 
