@@ -1,4 +1,0 @@
-/home/pi/Development/C++/PeriodeC/IoT-Nerf-Turret/build/CMakeFiles/rebuild_cache.dir
-/home/pi/Development/C++/PeriodeC/IoT-Nerf-Turret/build/CMakeFiles/edit_cache.dir
-/home/pi/Development/C++/PeriodeC/IoT-Nerf-Turret/build/CMakeFiles/turret.dir
-/home/pi/Development/C++/PeriodeC/IoT-Nerf-Turret/build/CMakeFiles/controller.dir
