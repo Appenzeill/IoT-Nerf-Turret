@@ -12,6 +12,6 @@ add_executable(controller
         src/controller/PracticalSocket.cpp
 	src/controller/main.cpp)
 
-
 find_library(wiringPi_LIB wiringPi)
-target_link_libraries(procul ${wiringPi_LIB} pthread)
+target_link_libraries(turret ${wiringPi_LIB} pthread)
+target_link_libraries(controller ${wiringPi_LIB} pthread)

@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/controller.dir/src/controller/PracticalSocket.cpp.o CMakeFiles/controller.dir/src/controller/main.cpp.o  -o controller  /usr/lib/libwiringPi.so -lpthread 

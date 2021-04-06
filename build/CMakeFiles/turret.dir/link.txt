@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/turret.dir/src/turret/PracticalSocket.cpp.o CMakeFiles/turret.dir/src/turret/main.cpp.o  -o turret  /usr/lib/libwiringPi.so -lpthread 
