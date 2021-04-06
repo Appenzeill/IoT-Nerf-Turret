@@ -35,13 +35,13 @@ Er zijn 2 binaries, turret en controller.
 $ ./controller
 ```
 
-en,
+en
 
 ```
 $ sudo ./turret
 ```
 
-let op, turret heeft su permissies nodig.
+Let op, turret heeft su permissies nodig.
 
 ## Studenten 
 * Jarno Bröcker | 1781716 | [Jarno-2003](https://github.com/Jarno-2003) 
