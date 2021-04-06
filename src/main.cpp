@@ -1,5 +1,6 @@
 #include <wiringPi.h>
 #include <unistd.h>
+#include "pubsub.h"
 #include <iostream>
 
 using namespace std;
@@ -21,28 +22,22 @@ PI_THREAD(fire_servo) {
   while (true) {
     if (fire == false) {
       for (int i = 0; i <= 50; i++) {
-	//usleep(20000);
-	usleep(17500);
-	digitalWrite (26, HIGH);
-	usleep(2500);
-	digitalWrite (26,  LOW);
-	//cout << i << endl;
-      }
-    } else {
-      for (int i = 0; i <= 50; i++) {
-	//usleep(20000);
 	usleep(19500);
 	digitalWrite (26, HIGH);
 	usleep(500);
 	digitalWrite (26,  LOW);
-	//cout << i << endl;
+      }
+    } else {
+      for (int i = 0; i <= 50; i++) {
+	usleep(17500);
+	digitalWrite (26, HIGH);
+	usleep(2500);
+	digitalWrite (26,  LOW);
       }
     }
-    //cout << "FIRE!" << endl;
   }
   return(0);
 }
-
 
 PI_THREAD(vertical_servo) {
   while (true) {
@@ -82,7 +77,38 @@ PI_THREAD(horizontal_servo) {
     horizontal_old = horizontal_new;
   }
   return(0);
-}  
+}
+
+void onrecieve(string message) {
+  int interval = 5;
+  if (message == "schiet") {
+    if (fire == false) {
+      fire = true;
+    } else {
+      fire = false;
+    }
+  } else if (message == "omlaag") {
+    if ((vertical_new + 10) <= vertical_max) {
+      vertical_old = vertical_new;
+      vertical_new = vertical_new + interval;
+    }
+  } else if (message == "omhoog") {
+    if ((vertical_new - 10) >= vertical_min) {
+      vertical_old = vertical_new;
+      vertical_new = vertical_new - interval;
+    }
+  } else if (message == "links") {
+    if ((horizontal_new + 10) <= horizontal_max) {
+      horizontal_old = horizontal_new;
+      horizontal_new = horizontal_new + interval;
+    }
+  } else if (message == "rechts") {
+    if ((horizontal_new - 10) >= horizontal_min) {
+      horizontal_old = horizontal_new;
+      horizontal_new = horizontal_new - interval;
+    }
+  }
+}
 
 int main(void) {
   // initialiseer de threads.
@@ -110,51 +136,12 @@ int main(void) {
   pwmSetRange(2000);
   pwmSetClock(192);
 
-  while (true) {
-    int degrees;
-    string direction;
-    cout << "richting: ";
-    cin >> direction;
-    if (direction == "s") {
-      cout << vertical_new << endl;
-      if ((vertical_new - 10) >= vertical_min) {
-	vertical_old = vertical_new;
-	vertical_new = vertical_new - interval;
-      }
-      cout << vertical_new << endl;
-    } else if (direction == "w") {
-      cout << vertical_new << endl;
-      if ((vertical_new + 10) <= vertical_max) {
-	vertical_old = vertical_new;
-	vertical_new = vertical_new + interval;
-      }
-      cout << vertical_new << endl;
-    } else if (direction == "a") {
-      cout << horizontal_new << endl;
-      if ((horizontal_new - 10) >= horizontal_min) {
-	horizontal_old = horizontal_new;
-	horizontal_new = horizontal_new - interval;
-      }
-      cout << horizontal_new << endl;
-    } else if (direction == "d") {
-      cout << horizontal_new << endl;
-      if ((horizontal_new + 10) <= horizontal_max) {
-	horizontal_old = horizontal_new;
-	horizontal_new = horizontal_new + interval;
-      }
-      cout << horizontal_new << endl;
-    } else if (direction == "f") {
-      if (fire == false) {
-	fire = true;
-      } else {
-	fire = false;
-      }
-    } else {
-      cout << "geen geldige input \n";
-    }
-    if (degrees == -1) {
-      break;
-    }
-  }
+  // pubsub configuratie
+  subscription s("Turret_controller7", onrecieve);
+
+  cout << "waiting for messages" << endl;
+  cout << "druk op de \'s\' knop om te stoppen"  << endl;
+  cin.get();
+
   return(0);
 }
