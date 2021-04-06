@@ -27,25 +27,9 @@ $ mkdir build
 $ cd build
 $ cmake ..
 $ make
-$ ./procul
 ```
-
-### Windows
-```
-C:\ under construction
-```
-
-
-Het project gebruikt arguments om aan te geven wat er gedaan moet worden in het programma.
-Enkele arguments zijn:
-
-1. onder constructie 
-
-Zie help voor meer informatie.
-
-```
-$ procul --help
-```
+### Binaries
+Er zijn 2 binaries, turret en controller.
 
 ## Studenten 
 * Jarno Bröcker | 1781716 | [Jarno-2003](https://github.com/Jarno-2003) 
