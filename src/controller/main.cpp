@@ -16,7 +16,7 @@ using namespace std;
 #define Yellow 26
 
 void setup(){
-    //Alle leds worden hier op de juiste mode gezet dus input/output
+    //Alle pi-wires worden hier op de juiste mode gezet dus input/output
     wiringPiSetupGpio();
     pinMode(L, INPUT);
     pinMode(R, INPUT);
