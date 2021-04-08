@@ -47,21 +47,21 @@ void knoppen(bool keuze){
     while(!digitalRead(S)){
         if(keuze == true){
             if(digitalRead(L)){
-                cout << "Omhoog +=1" << endl; 
+                //cout << "Omhoog +=1" << endl; 
                 p.send("omhoog");
                 delay(200);
             }else if(digitalRead(R)){
-                cout << "omlaag +=1" << endl;
+                //cout << "omlaag +=1" << endl;
                 p.send("omlaag");
                 delay(200);
             }
         }else{
             if(digitalRead(L)){
-                cout << "Links +=1" << endl;
+                //cout << "Links +=1" << endl;
                 p.send("links");
                 delay(200);
             }else if(digitalRead(R)){
-                cout << "rechts +=1" << endl;
+                //cout << "rechts +=1" << endl;
                 p.send("rechts");
                 delay(200);
             }
