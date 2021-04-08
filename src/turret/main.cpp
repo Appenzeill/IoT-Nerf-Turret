@@ -17,8 +17,7 @@ int vertical_max = 160;
 int vertical_new = 120;
 int vertical_old = 120;
 
-// handmatige implementatie van pwm signal.
-PI_THREAD(fire_servo) {
+PI_THREAD(fire_servo) { // handmatige implementatie van pwm signal voor de servo die schiet.
   while (true) {
     if (fire == false) {
       for (int i = 0; i <= 50; i++) {
@@ -39,7 +38,7 @@ PI_THREAD(fire_servo) {
   return(0);
 }
 
-PI_THREAD(vertical_servo) {
+PI_THREAD(vertical_servo) { // handmatige implementatie van pwm signal voor de servo die verticaal beweegd.
   while (true) {
     usleep(30000);
     if (horizontal_new != vertical_old && vertical_new < vertical_old) {
@@ -58,7 +57,7 @@ PI_THREAD(vertical_servo) {
   return(0);
 }
 
-PI_THREAD(horizontal_servo) {
+PI_THREAD(horizontal_servo) { // handmatige implementatie van pwm signal voor de servo die horizontaal beweegd.
   while (true) {
     usleep(30000);
     if (horizontal_new != horizontal_old && horizontal_new < horizontal_old) {
@@ -79,30 +78,30 @@ PI_THREAD(horizontal_servo) {
   return(0);
 }
 
-void onrecieve(string message) {
+void onrecieve(string message) { // hier ontvangt de code het bericht dat verstuurd is via Pubsub2
   int interval = 5;
-  if (message == "schiet") {
+  if (message == "schiet") { // Als het bericht van Pubsub 'schiet' is, wordt fire true, zodat de Pi_THREAD de schiet-servo draait.
     if (fire == false) {
       fire = true;
     } else {
       fire = false;
     }
-  } else if (message == "omlaag") {
+  } else if (message == "omlaag") { // Als het bericht van Pubsub 'omlaag' is, wordt er bij vertical_old 10 graden bijgedaan, zodat de Pi_THREAD de verticale servo draait.
     if ((vertical_new + 10) <= vertical_max) {
       vertical_old = vertical_new;
       vertical_new = vertical_new + interval;
     }
-  } else if (message == "omhoog") {
+  } else if (message == "omhoog") { // Als het bericht van Pubsub 'omhoog' is, wordt er bij vertical_old 10 graden afgehaalt, zodat de Pi_THREAD de verticale servo draait.
     if ((vertical_new - 10) >= vertical_min) {
       vertical_old = vertical_new;
       vertical_new = vertical_new - interval;
     }
-  } else if (message == "links") {
+  } else if (message == "links") { // Als het bericht van Pubsub 'links' is, wordt er bij horizontal_old 10 graden bijgedaan, zodat de Pi_THREAD de horizontale servo draait.
     if ((horizontal_new + 10) <= horizontal_max) {
       horizontal_old = horizontal_new;
       horizontal_new = horizontal_new + interval;
     }
-  } else if (message == "rechts") {
+  } else if (message == "rechts") { // Als het bericht van Pubsub 'rechts' is, wordt er bij horizontal_old 10 graden afgehaalt, zodat de Pi_THREAD de horizontale servo draait.
     if ((horizontal_new - 10) >= horizontal_min) {
       horizontal_old = horizontal_new;
       horizontal_new = horizontal_new - interval;
@@ -116,28 +115,24 @@ int main(void) {
   int t1 = piThreadCreate(horizontal_servo);
   int t2 = piThreadCreate(fire_servo);
 
-  // hoeveel punten per keer met draaien.
-  int interval = 5;
+  int interval = 5; // hoeveel graden de servo per keer draaien.
 
-  // error handling van de threads
-  if (t0 != 0 || t1 != 0 || t2 != 0 ) {
+  if (t0 != 0 || t1 != 0 || t2 != 0 ) { // error handling van de threads
     std::cout << "threads did not start correctly." << std::endl;
   }
   
   wiringPiSetupGpio();
-  // schiet servo
-  pinMode (26, OUTPUT);
+  pinMode(26, OUTPUT); // schiet servo GPIO pin 26
 
   // pwm servos
-  pinMode(18,PWM_OUTPUT); // 18
-  pinMode(19,PWM_OUTPUT); // 19
+  pinMode(18,PWM_OUTPUT); // GPIO pin 18
+  pinMode(19,PWM_OUTPUT); // GPIO pin 19
   
   pwmSetMode(PWM_MODE_MS);
   pwmSetRange(2000);
   pwmSetClock(192);
 
-  // pubsub configuratie
-  subscription s("Turret_controller7", onrecieve);
+  subscription s("Turret_controller7", onrecieve); // pubsub configuratie
 
   cout << "waiting for messages" << endl;
   cout << "druk op de \'s\' knop om te stoppen"  << endl;
